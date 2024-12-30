@@ -1,0 +1,88 @@
+import java.util.Scanner;
+public class HotelReservation {
+  //Array to store room status(initially rooms are available)
+  static String[] rooms={"Available","Available","Available"} ;
+  //Array to store the names of people who booked the rooms
+    static String[] reservations=new String[3];
+    public static void main (String[] args){
+        Scanner sc=new Scanner(System.in);
+        boolean running =true;//flag to contro the loop
+        while(running){
+            //display the main menu
+            System.out.println(("\n --Hotel Reservation System--"));
+            System.out.println("1.View Rooms");
+            System.out.println("2.Book a Rooms");
+            System.out.println("3.View Reservations");
+            System.out.println("4.Exit");
+            System.out.println("Choose an option:");
+            int choice =sc.nextInt();
+            sc.nextLine();
+
+            switch(choice){
+                case 1:viewRooms();
+                case 2:bookRooms(sc);
+                case 3:viewReservations();
+                case 4:{
+                    running=false;
+                    System.out.println("Thank you for using the system.");
+
+                }
+                default:
+                    System.out.println("Invalid choice.Please Try Again.");
+            }
+
+        }
+        sc.close();
+    }
+
+//method to display available rooms
+public static void viewRooms() {
+    System.out.println("\n ---Room Status----");
+    //loop through the rooms array and display the status of each room
+    for(int i=0; i<rooms.length;i++){
+        System.out.println("Room "+(i+1)+rooms[i]);
+    }
+}
+//method to book a room
+    public static void bookRooms(Scanner sc){
+        System.out.println("\n Book a Room");
+        viewRooms();System.out.println("Enter the room number to book(1-3)");
+        int roomNumber=sc.nextInt();
+        sc.nextLine();
+        if(roomNumber<1 || roomNumber>3){
+            System.out.println("Inavalid room Number .Please Try Again");
+            return;
+        }
+        //check if the room is already booked
+        if(!rooms[roomNumber-1].equals("Available")){
+            System.out.println("Sorry, This room is already booked.");
+            return;
+        }
+        //prompt the user to enter their name
+        System.out.println("Enter your Name:");
+        String name=sc.nextLine();
+        //Book the room and updating the status and storing the reservation
+        rooms[roomNumber-1]="Booked";
+        reservations[roomNumber-1]=name;
+
+        System.out.println("Room"+roomNumber+"has ben successfully booked by"+name);
+
+    }
+    //Method to view current reservation
+    public static void viewReservations(){
+        System.out.println("\n Reservations");
+        boolean hasReservations=false;
+
+        for(int i=0;i<reservations.length;i++){
+            if(reservations[i] !=null){
+                System.out.println("Room"+(i+1)+"is booked by"+reservations[i]);
+                hasReservations=true;
+
+            }
+        }
+        //if no reservation exists
+        if(!hasReservations){
+            System.out.println("No Reservations yet.");
+        }
+    }
+}
